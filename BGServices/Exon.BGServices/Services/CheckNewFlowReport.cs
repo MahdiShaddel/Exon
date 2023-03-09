@@ -83,6 +83,7 @@ namespace Exon.BGServices.Services
                                 currentLog.LogStatus = 0;
                                 currentLog.CreateDate = DateTime.Now;
                                 currentLog.LogType = 1;
+                                currentLog.Message = "inserted";
 
                                 await db.Logs.AddAsync(currentLog);
                                 await db.SaveChangesAsync();
@@ -94,6 +95,7 @@ namespace Exon.BGServices.Services
                             currentLog.LogStatus = 1;
                             currentLog.CreateDate = DateTime.Now;
                             currentLog.LogType = 1;
+                            currentLog.Message = "api response error";
 
                             await db.Logs.AddAsync(currentLog);
                             await db.SaveChangesAsync();
@@ -147,6 +149,7 @@ namespace Exon.BGServices.Services
                                 currentLog.LogStatus = 0;
                                 currentLog.CreateDate = DateTime.Now;
                                 currentLog.LogType = 1;
+                                currentLog.Message = "inserted";
 
                                 await db.Logs.AddAsync(currentLog);
                                 await db.SaveChangesAsync();
@@ -159,6 +162,7 @@ namespace Exon.BGServices.Services
                             currentLog.LogStatus = 1;
                             currentLog.CreateDate = DateTime.Now;
                             currentLog.LogType = 1;
+                            currentLog.Message = "api response error";
 
                             await db.Logs.AddAsync(currentLog);
                             await db.SaveChangesAsync();
@@ -171,6 +175,7 @@ namespace Exon.BGServices.Services
                     currentLog.LogStatus = 1;
                     currentLog.CreateDate = DateTime.Now;
                     currentLog.LogType = 1;
+                    currentLog.Message = ex.Message;
 
                     await db.Logs.AddAsync(currentLog);
                     await db.SaveChangesAsync();

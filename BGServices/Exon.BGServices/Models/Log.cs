@@ -11,6 +11,8 @@ public partial class Log
 
     public int LogStatus { get; set; }
 
+    public string Message { get; set; }
+
     public DateTime CreateDate { get; set; }
 
     public DateTime ModifedDate { get; set; }

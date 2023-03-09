@@ -36,8 +36,8 @@ builder.Services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
 builder.Services.AddSingleton<CheckNewReportLoaded>();
 builder.Services.AddSingleton<CheckNewFlowReport>();
 
-builder.Services.AddSingleton(new JobSchedule(jobType: typeof(CheckNewReportLoaded), cronExpression: "0 */2 * ? * *"));
-//builder.Services.AddSingleton(new JobSchedule(jobType: typeof(CheckNewFlowReport), cronExpression: "0 */3 * ? * *"));
+builder.Services.AddSingleton(new JobSchedule(jobType: typeof(CheckNewReportLoaded), cronExpression: "0 */5 * ? * *"));
+builder.Services.AddSingleton(new JobSchedule(jobType: typeof(CheckNewFlowReport), cronExpression: "0 */3 * ? * *"));
 
 builder.Services.AddHostedService<QuartzHostedService>();
 #endregion
