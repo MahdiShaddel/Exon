@@ -10,7 +10,7 @@ using Exon.BGServices.Contexts;
 var builder = WebApplication.CreateBuilder(args);
 
 #region Context
-builder.Services.AddDbContext<ExonContext>(options => options.UseSqlServer("Server=.;initial catalog=Exon;integrated security=true;TrustServerCertificate=True;"));
+builder.Services.AddDbContext<ExonContext>(options => options.UseSqlServer("Server=MGSRKH\\SQLEXPRESS2019;initial catalog=Exon;integrated security=true;TrustServerCertificate=True;"));
 builder.Services.AddScoped<DbContext, ExonContext>();
 #endregion
 
@@ -36,8 +36,8 @@ builder.Services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
 builder.Services.AddSingleton<CheckNewReportLoaded>();
 builder.Services.AddSingleton<CheckNewFlowReport>();
 
-builder.Services.AddSingleton(new JobSchedule(jobType: typeof(CheckNewReportLoaded), cronExpression: "0 */5 * ? * *"));
-builder.Services.AddSingleton(new JobSchedule(jobType: typeof(CheckNewFlowReport), cronExpression: "0 */3 * ? * *"));
+builder.Services.AddSingleton(new JobSchedule(jobType: typeof(CheckNewReportLoaded), cronExpression: "0 */2 * ? * *"));
+//builder.Services.AddSingleton(new JobSchedule(jobType: typeof(CheckNewFlowReport), cronExpression: "0 */3 * ? * *"));
 
 builder.Services.AddHostedService<QuartzHostedService>();
 #endregion

@@ -56,25 +56,27 @@ namespace Exon.BGServices.Services
 
                             if (listmodel.value.Count > 0)
                             {
-                                var billOfLadingOrderIds = listmodel.value.Select(x => x.billOfLadingOrderId).ToList();
-                                var findedEntity = db.OrderLoadingReport.Where(o => billOfLadingOrderIds.Contains(o.OrderId)).FirstOrDefault();
+                                var orders = db.OrderLoadingReport.Where(o => o.BillOfLadingId == null && o.IsArrived.Value.Equals(true)).ToList();
 
-                                foreach (var item in listmodel.value)
+                                var orderIds = orders.Select(o => o.OrderId).ToList();
+
+                                foreach (var item in orders)
                                 {
+                                    var findedEntity = listmodel.value.Where(o => orderIds.Contains(o.billOfLadingOrderId)).FirstOrDefault();
+
                                     if (findedEntity is not null)
                                     {
-                                        var reportLoaded = new OrderLoadingReport
-                                        {
-                                            BillOfLadingId = findedEntity.BillOfLadingId,
-                                            BillOfLadingDate = findedEntity.BillOfLadingDate,
-                                            BillOfLadingTime = findedEntity.BillOfLadingTime,
-                                            BillOfLadingGoodCount = findedEntity.BillOfLadingGoodCount,
-                                            BillOfLadingWeight = findedEntity.BillOfLadingWeight,
-                                            DriverTelephne = findedEntity.DriverTelephne,
-                                            ModifedDate = DateTime.Now
-                                        };
+                                        item.BillOfLadingId = findedEntity.billOfLadingID;
+                                        item.BillOfLadingDate = findedEntity.billOfLadingDate;
+                                        item.BillOfLadingTime = findedEntity.billOfLadingTime;
+                                        item.BillOfLadingGoodCount = findedEntity.billOfLadingGoodCount;
+                                        item.BillOfLadingWeight = findedEntity.billOfLadingWeight;
+                                        item.DriverTelephne = findedEntity.driverTelephne;
+                                        item.ModifedDate = DateTime.Now;
 
-                                        db.Entry(findedEntity).State = EntityState.Modified;
+                                        db.OrderLoadingReport.Attach(item);
+
+                                        db.Entry(item).State = EntityState.Modified;
 
                                         await db.SaveChangesAsync();
 
