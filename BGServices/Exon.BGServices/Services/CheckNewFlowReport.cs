@@ -1,7 +1,6 @@
 ﻿using Exon.BGServices.Contexts;
 using Exon.BGServices.DTO;
 using Exon.BGServices.DTO.FlowReport;
-using Exon.BGServices.DTO.ReportLoaded;
 using Exon.BGServices.Extenstions;
 using Exon.BGServices.Models;
 using Newtonsoft.Json;
@@ -59,24 +58,24 @@ namespace Exon.BGServices.Services
 
                                 foreach (var item in model.value)
                                 {
-                                    var flowReport = new FlowReport();
+                                    var flowReport = new OrderLoadingReport
+                                    {
+                                        OrderId = item.orderId,
+                                        CompanyInternalContractCode = item.companyInternalContractCode,
+                                        OrderGoodDescreption = item.orderGoodDescreption,
+                                        OrderIssueDate = item.orderIssueDate,
+                                        OrderIssueTime = item.orderIssueTime,
+                                        ReceiverCode = item.receiverCode,
+                                        CtName = item.ctName,
+                                        ReceiverName = item.receiverName,
+                                        TruckLicensePlate = item.truckLicensePlate,
+                                        DriverFullName = item.driverFullName,
+                                        OrderGoodCount = item.orderGoodCount,
+                                        OrderWeight = item.orderWeight,
+                                        CreateDate = DateTime.Now
+                                    };
 
-                                    flowReport.orderId = item.orderId;
-                                    flowReport.companyInternalContractCode = item.companyInternalContractCode;
-                                    flowReport.orderIssueDate = item.orderIssueDate;
-                                    flowReport.orderIssueTime = item.orderIssueTime;
-                                    flowReport.receiverCode = item.receiverCode;
-                                    flowReport.ctName = item.ctName;
-                                    flowReport.receiverName = item.receiverName;
-                                    flowReport.truckLicensePlate = item.truckLicensePlate;
-                                    flowReport.orderGoodCount = item.orderGoodCount;
-                                    flowReport.orderWeight = item.orderWeight;
-                                    flowReport.driverFullName = item.driverFullName;
-                                    flowReport.orderIssueDate = item.orderIssueDate;
-                                    flowReport.orderIssueTime = item.orderIssueTime;
-                                    flowReport.CreateDate = DateTime.Now;
-
-                                    await db.FlowReport.AddAsync(flowReport);
+                                    await db.OrderLoadingReport.AddAsync(flowReport);
                                     await db.SaveChangesAsync();
                                 }
 
@@ -124,24 +123,23 @@ namespace Exon.BGServices.Services
                             {
                                 foreach (var item in model.value)
                                 {
-                                    var flowReport = new FlowReport();
-
-                                    flowReport.orderId = item.orderId;
-                                    flowReport.companyInternalContractCode = item.companyInternalContractCode;
-                                    flowReport.orderIssueDate = item.orderIssueDate;
-                                    flowReport.orderIssueTime = item.orderIssueTime;
-                                    flowReport.receiverCode = item.receiverCode;
-                                    flowReport.ctName = item.ctName;
-                                    flowReport.receiverName = item.receiverName;
-                                    flowReport.truckLicensePlate = item.truckLicensePlate;
-                                    flowReport.orderGoodCount = item.orderGoodCount;
-                                    flowReport.orderWeight = item.orderWeight;
-                                    flowReport.driverFullName = item.driverFullName;
-                                    flowReport.orderIssueDate = item.orderIssueDate;
-                                    flowReport.orderIssueTime = item.orderIssueTime;
-                                    flowReport.CreateDate = DateTime.Now;
-
-                                    await db.FlowReport.AddAsync(flowReport);
+                                    var flowReport = new OrderLoadingReport
+                                    {
+                                        OrderId = item.orderId,
+                                        CompanyInternalContractCode = item.companyInternalContractCode,
+                                        OrderGoodDescreption = item.orderGoodDescreption,
+                                        OrderIssueDate = item.orderIssueDate,
+                                        OrderIssueTime = item.orderIssueTime,
+                                        ReceiverCode = item.receiverCode,
+                                        CtName = item.ctName,
+                                        ReceiverName = item.receiverName,
+                                        TruckLicensePlate = item.truckLicensePlate,
+                                        DriverFullName = item.driverFullName,
+                                        OrderGoodCount = item.orderGoodCount,
+                                        OrderWeight = item.orderWeight,
+                                        CreateDate = DateTime.Now
+                                    };
+                                    await db.OrderLoadingReport.AddAsync(flowReport);
                                     await db.SaveChangesAsync();
                                 }
 

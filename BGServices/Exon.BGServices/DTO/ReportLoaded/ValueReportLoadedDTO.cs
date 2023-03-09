@@ -9,6 +9,8 @@
         public string billOfLadingTime { get; set; }
         public string receiverCode { get; set; }
         public string ctName { get; set; }
+        public string receiverName { get; set; }
+        public string truckLicensePlate { get; set; }
         public string driverFullName { get; set; }
         public string billOfLadingGoodCount { get; set; }
         public string billOfLadingWeight { get; set; }

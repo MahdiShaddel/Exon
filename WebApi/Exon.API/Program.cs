@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 #region Context
-builder.Services.AddDbContext<ExonContext>(options => options.UseSqlServer("Server=.;initial catalog=Exon;integrated security=true;TrustServerCertificate=True;"));
+builder.Services.AddDbContext<ExonContext>(options => options.UseSqlServer("Server=MGSRKH\\SQLEXPRESS2019;initial catalog=Exon;integrated security=true;TrustServerCertificate=True;"));
 builder.Services.AddScoped<DbContext, ExonContext>();
 #endregion
 

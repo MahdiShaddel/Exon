@@ -7,11 +7,10 @@ namespace Exon.Inferastructure.Contexts
     {
         public ExonContext(DbContextOptions<ExonContext> options) : base(options)
         {
-            
+
         }
 
-        public DbSet<FlowReport> FlowReport { get; set; }     
-        public DbSet<ReportLoaded> ReportLoaded { get; set; }     
-        public DbSet<Logs> Logs { get; set; }     
+        public DbSet<OrderLoadingReport> OrderLoadingReport { get; set; }
+        public DbSet<Logs> Logs { get; set; }
     }
 }

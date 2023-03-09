@@ -3,6 +3,7 @@ using Exon.BGServices.DTO;
 using Exon.BGServices.DTO.ReportLoaded;
 using Exon.BGServices.Extenstions;
 using Exon.BGServices.Models;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Quartz;
 using System.Net;
@@ -55,38 +56,37 @@ namespace Exon.BGServices.Services
 
                             if (listmodel.value.Count > 0)
                             {
+                                var billOfLadingOrderIds = listmodel.value.Select(x => x.billOfLadingOrderId).ToList();
+                                var findedEntity = db.OrderLoadingReport.Where(o => billOfLadingOrderIds.Contains(o.OrderId)).FirstOrDefault();
 
                                 foreach (var item in listmodel.value)
                                 {
-                                    var reportLoaded = new ReportLoaded();
+                                    if (findedEntity is not null)
+                                    {
+                                        var reportLoaded = new OrderLoadingReport
+                                        {
+                                            BillOfLadingId = findedEntity.BillOfLadingId,
+                                            BillOfLadingDate = findedEntity.BillOfLadingDate,
+                                            BillOfLadingTime = findedEntity.BillOfLadingTime,
+                                            BillOfLadingGoodCount = findedEntity.BillOfLadingGoodCount,
+                                            BillOfLadingWeight = findedEntity.BillOfLadingWeight,
+                                            DriverTelephne = findedEntity.DriverTelephne,
+                                            ModifedDate = DateTime.Now
+                                        };
 
-                                    reportLoaded.billOfLadingID = item.billOfLadingID;
-                                    reportLoaded.companyInternalContractCode = item.companyInternalContractCode;
-                                    reportLoaded.billOfLadingGoodDescreption = item.billOfLadingGoodDescreption;
-                                    reportLoaded.billOfLadingDate = item.billOfLadingDate;
-                                    reportLoaded.billOfLadingTime = item.billOfLadingTime;
-                                    reportLoaded.receiverCode = item.receiverCode;
-                                    reportLoaded.ctName = item.ctName;
-                                    reportLoaded.driverFullName = item.driverFullName;
-                                    reportLoaded.billOfLadingGoodCount = item.billOfLadingGoodCount;
-                                    reportLoaded.billOfLadingWeight = item.billOfLadingWeight;
-                                    reportLoaded.driverTelephne = item.driverTelephne;
-                                    reportLoaded.billOfLadingOrderId = item.billOfLadingOrderId;
-                                    reportLoaded.orderIssueDate = item.orderIssueDate;
-                                    reportLoaded.orderIssueTime = item.orderIssueTime;
-                                    reportLoaded.CreateDate = DateTime.Now;
+                                        db.Entry(findedEntity).State = EntityState.Modified;
 
-                                    await db.ReportLoaded.AddAsync(reportLoaded);
-                                    await db.SaveChangesAsync();
+                                        await db.SaveChangesAsync();
+
+                                        var currentLog = new Log();
+                                        currentLog.LogStatus = 0;
+                                        currentLog.CreateDate = DateTime.Now;
+                                        currentLog.LogType = 0;
+
+                                        await db.Logs.AddAsync(currentLog);
+                                        await db.SaveChangesAsync();
+                                    }
                                 }
-
-                                var currentLog = new Log();
-                                currentLog.LogStatus = 0;
-                                currentLog.CreateDate = DateTime.Now;
-                                currentLog.LogType = 0;
-
-                                await db.Logs.AddAsync(currentLog);
-                                await db.SaveChangesAsync();
                             }
                         }
                         else
@@ -124,25 +124,29 @@ namespace Exon.BGServices.Services
                             {
                                 foreach (var item in listmodel.value)
                                 {
-                                    var reportLoaded = new ReportLoaded();
+                                    var reportLoaded = new OrderLoadingReport
+                                    {
+                                        BillOfLadingId = item.billOfLadingID,
+                                        BillOfLadingDate = item.billOfLadingDate,
+                                        BillOfLadingTime = item.billOfLadingTime,
+                                        BillOfLadingGoodCount = item.billOfLadingGoodCount,
+                                        BillOfLadingWeight = item.billOfLadingWeight,
+                                        DriverTelephne = item.driverTelephne,
+                                        OrderId = item.billOfLadingOrderId,
+                                        OrderIssueDate = item.orderIssueDate,
+                                        OrderIssueTime = item.orderIssueTime,
+                                        OrderGoodCount = item.billOfLadingGoodCount,
+                                        OrderGoodDescreption = item.billOfLadingGoodDescreption,
+                                        CompanyInternalContractCode = item.companyInternalContractCode,
+                                        CtName = item.ctName,
+                                        ReceiverCode = item.receiverCode,
+                                        ReceiverName = item.receiverName,
+                                        DriverFullName = item.driverFullName,
+                                        TruckLicensePlate = item.truckLicensePlate,
+                                        CreateDate = DateTime.Now
+                                    };
 
-                                    reportLoaded.billOfLadingID = item.billOfLadingID;
-                                    reportLoaded.companyInternalContractCode = item.companyInternalContractCode;
-                                    reportLoaded.billOfLadingGoodDescreption = item.billOfLadingGoodDescreption;
-                                    reportLoaded.billOfLadingDate = item.billOfLadingDate;
-                                    reportLoaded.billOfLadingTime = item.billOfLadingTime;
-                                    reportLoaded.receiverCode = item.receiverCode;
-                                    reportLoaded.ctName = item.ctName;
-                                    reportLoaded.driverFullName = item.driverFullName;
-                                    reportLoaded.billOfLadingGoodCount = item.billOfLadingGoodCount;
-                                    reportLoaded.billOfLadingWeight = item.billOfLadingWeight;
-                                    reportLoaded.driverTelephne = item.driverTelephne;
-                                    reportLoaded.billOfLadingOrderId = item.billOfLadingOrderId;
-                                    reportLoaded.orderIssueDate = item.orderIssueDate;
-                                    reportLoaded.orderIssueTime = item.orderIssueTime;
-                                    reportLoaded.CreateDate = DateTime.Now;
-
-                                    await db.ReportLoaded.AddAsync(reportLoaded);
+                                    await db.OrderLoadingReport.AddAsync(reportLoaded);
                                     await db.SaveChangesAsync();
                                 }
 

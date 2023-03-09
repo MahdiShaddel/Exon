@@ -4,6 +4,7 @@
     {
         public string orderId { get; set; }
         public string companyInternalContractCode { get; set; }
+        public string orderGoodDescreption { get; set; }
         public string orderIssueDate { get; set; }
         public string orderIssueTime { get; set; }
         public string receiverCode { get; set; }

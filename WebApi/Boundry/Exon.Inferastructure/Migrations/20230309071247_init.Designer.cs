@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Exon.Inferastructure.Migrations
 {
     [DbContext(typeof(ExonContext))]
-    [Migration("20230308132040_models")]
-    partial class models
+    [Migration("20230309071247_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace Exon.Inferastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Exon.Domain.Models.FlowReport", b =>
+            modelBuilder.Entity("Exon.Domain.Models.Logs", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -36,15 +36,21 @@ namespace Exon.Inferastructure.Migrations
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("LogStatus")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LogType")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("ModifedDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.ToTable("FlowReport");
+                    b.ToTable("Logs");
                 });
 
-            modelBuilder.Entity("Exon.Domain.Models.ReportLoaded", b =>
+            modelBuilder.Entity("Exon.Domain.Models.OrderLoadingReport", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -66,15 +72,7 @@ namespace Exon.Inferastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("billOfLadingGoodDescreption")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("billOfLadingID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("billOfLadingOrderId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -94,6 +92,10 @@ namespace Exon.Inferastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("driverArrivedTime")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("driverFullName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -102,11 +104,30 @@ namespace Exon.Inferastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("isArrived")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("orderGoodCount")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("orderGoodDescreption")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("orderId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("orderIssueDate")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("orderIssueTime")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("orderWeight")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -124,7 +145,7 @@ namespace Exon.Inferastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ReportLoaded");
+                    b.ToTable("OrderLoadingReport");
                 });
 #pragma warning restore 612, 618
         }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Exon.Inferastructure.Migrations
 {
     [DbContext(typeof(ExonContext))]
-    [Migration("20230308214801_update-ReportLoaded")]
-    partial class updateReportLoaded
+    [Migration("20230309085557_add-nullable-props-to-table")]
+    partial class addnullablepropstotable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,25 +24,6 @@ namespace Exon.Inferastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("Exon.Domain.Models.FlowReport", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("ModifedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FlowReport");
-                });
 
             modelBuilder.Entity("Exon.Domain.Models.Logs", b =>
                 {
@@ -55,12 +36,11 @@ namespace Exon.Inferastructure.Migrations
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("LogType")
+                    b.Property<int>("LogStatus")
                         .HasColumnType("int");
 
-                    b.Property<string>("Messages")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("LogType")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("ModifedDate")
                         .HasColumnType("datetime2");
@@ -70,7 +50,7 @@ namespace Exon.Inferastructure.Migrations
                     b.ToTable("Logs");
                 });
 
-            modelBuilder.Entity("Exon.Domain.Models.ReportLoaded", b =>
+            modelBuilder.Entity("Exon.Domain.Models.OrderLoadingReport", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -85,64 +65,68 @@ namespace Exon.Inferastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("billOfLadingDate")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("billOfLadingGoodCount")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("billOfLadingGoodDescreption")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("billOfLadingID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("billOfLadingOrderId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("billOfLadingTime")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("billOfLadingWeight")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("companyInternalContractCode")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ctName")
-                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("driverArrivedTime")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("driverFullName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("driverTelephne")
-                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("isArrived")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("orderGoodCount")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("orderGoodDescreption")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("orderId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("orderIssueDate")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("orderIssueTime")
-                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("orderWeight")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("receiverCode")
-                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("receiverName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("truckLicensePlate")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("ReportLoaded");
+                    b.ToTable("OrderLoadingReport");
                 });
 #pragma warning restore 612, 618
         }
