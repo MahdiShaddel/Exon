@@ -7,7 +7,7 @@ using Microsoft.OpenApi.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 #region Context
-builder.Services.AddDbContext<ExonContext>(options => options.UseSqlServer("Server=.;initial catalog=Exon;integrated security=true;TrustServerCertificate=True;"));
+builder.Services.AddDbContext<ExonContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("SQLServer")));
 builder.Services.AddScoped<DbContext, ExonContext>();
 #endregion
 
