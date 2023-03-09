@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Exon.Inferastructure.Repositories.Repositories
+namespace Exon.Application.ApplicationServices.IServices
 {
-    internal class FlowReportRepository
+    public interface IOrderLoadingReportService
     {
     }
 }

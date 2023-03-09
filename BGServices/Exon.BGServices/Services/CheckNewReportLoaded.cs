@@ -143,7 +143,8 @@ namespace Exon.BGServices.Services
                                         ReceiverName = item.receiverName,
                                         DriverFullName = item.driverFullName,
                                         TruckLicensePlate = item.truckLicensePlate,
-                                        CreateDate = DateTime.Now
+                                        CreateDate = DateTime.Now,
+                                        IsArrived = true
                                     };
 
                                     await db.OrderLoadingReport.AddAsync(reportLoaded);
