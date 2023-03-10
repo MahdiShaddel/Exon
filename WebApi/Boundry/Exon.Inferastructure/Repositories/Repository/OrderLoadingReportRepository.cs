@@ -18,9 +18,8 @@ namespace Exon.Inferastructure.Repositories.Repository
         {
             var skip = (pageIndex - 1) * pageSize;
             var take = pageSize;
-            var totalCount = await Context.OrderLoadingReport.CountAsync() / 10 + 1;
 
-            var entities = await Context.OrderLoadingReport.Where(a => a.billOfLadingID != null && (a.isArrived != null || a.isArrived != false) && a.driverArrivedTime != null)
+            var entities = await Context.OrderLoadingReport.Where(a => a.billOfLadingID != null && a.isArrived != null && a.isArrived != false && a.driverArrivedTime != null)
                 .OrderByDescending(d => d.billOfLadingDate)
                 .Skip(skip).Take(take).ToListAsync();
 
@@ -28,7 +27,7 @@ namespace Exon.Inferastructure.Repositories.Repository
             {
                 Entities = entities,
                 PageIndex = pageIndex,
-                TotalPage = totalCount,
+                TotalPage = entities.Count / 10 + 1,
             };
         }
 
@@ -44,7 +43,7 @@ namespace Exon.Inferastructure.Repositories.Repository
             {
                 Entities = entities,
                 PageIndex = pageIndex,
-                TotalPage = entities.Count,
+                TotalPage = entities.Count / 10 + 1,
             };
         }
 
