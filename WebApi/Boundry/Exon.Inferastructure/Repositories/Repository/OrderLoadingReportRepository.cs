@@ -27,7 +27,7 @@ namespace Exon.Inferastructure.Repositories.Repository
             {
                 Entities = entities,
                 PageIndex = pageIndex,
-                TotalPage = entities.Count / 10 + 1,
+                TotalPage = await Context.OrderLoadingReport.CountAsync() / 10 + 1,
             };
         }
 
