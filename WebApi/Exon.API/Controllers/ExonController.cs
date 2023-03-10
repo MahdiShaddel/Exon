@@ -33,22 +33,25 @@ namespace Exon.API.Controllers
 
         [HttpPost]
         [Route("UpdateOrderLoadingReport")]
-        public async Task<IActionResult> UpdateOrderLoadingReport([FromBody] UpdateDTO request)
+        public async Task<UpdateResponse> UpdateOrderLoadingReport([FromBody] UpdateDTO request)
         {
-            string response = string.Empty;
+            UpdateResponse response = new();
             var report = await Repository.GetReportLoaded(request.orderId);
             if (report != null)
             {
                 report.isArrived = true;
                 report.driverArrivedTime = request.driverArrivedTime.TimeOfDay.ToString();
                 await Repository.UpdateOrderLoadingReport(report);
-                response = "ویرایش اطلاعات موفق آمیز بود";
+
+                response.Sucess = true;
+                response.Message = "ویرایش اطلاعات با موفقیت انجام شد";
             }
             else
             {
-                response = "رکورد مورد نظر معتبر نمی باشد";
+                response.Sucess = false;
+                response.Message = "رکورد مورد نظر معتبر نمی باشد";
             }
-            return Ok(response);
+            return response;
         }
     }
 }
