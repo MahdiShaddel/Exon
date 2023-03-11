@@ -60,10 +60,10 @@ namespace Exon.BGServices.Services
 
                                 var orderIds = orders.Select(o => o.OrderId).ToList();
 
+                                var findedEntity = listmodel.value.Where(o => orderIds.Contains(o.billOfLadingOrderId)).FirstOrDefault();
+
                                 foreach (var item in orders)
                                 {
-                                    var findedEntity = listmodel.value.Where(o => orderIds.Contains(o.billOfLadingOrderId)).FirstOrDefault();
-
                                     if (findedEntity is not null)
                                     {
                                         item.BillOfLadingId = findedEntity.billOfLadingID;
@@ -124,10 +124,14 @@ namespace Exon.BGServices.Services
 
                             listmodel = JsonConvert.DeserializeObject<ResponseReportLoadedDTO>(strResponse);
 
+                            string orderId = null;
+
                             if (listmodel.value.Count > 0)
                             {
                                 foreach (var item in listmodel.value)
                                 {
+                                    orderId = item.billOfLadingOrderId;
+
                                     var reportLoaded = new OrderLoadingReport
                                     {
                                         BillOfLadingId = item.billOfLadingID,
@@ -154,17 +158,18 @@ namespace Exon.BGServices.Services
 
                                     await db.OrderLoadingReport.AddAsync(reportLoaded);
                                     await db.SaveChangesAsync();
+
+                                    var currentLog = new Log();
+
+                                    currentLog.LogStatus = 0;
+                                    currentLog.CreateDate = DateTime.Now;
+                                    currentLog.LogType = 0;
+                                    currentLog.Message = "insert-all";
+                                    currentLog.OrderId = orderId;
+
+                                    await db.Logs.AddAsync(currentLog);
+                                    await db.SaveChangesAsync();
                                 }
-
-                                var currentLog = new Log();
-                                currentLog.LogStatus = 0;
-                                currentLog.CreateDate = DateTime.Now;
-                                currentLog.LogType = 0;
-                                currentLog.Message = "inserted";
-
-                                await db.Logs.AddAsync(currentLog);
-                                await db.SaveChangesAsync();
-
                             }
                         }
                         else

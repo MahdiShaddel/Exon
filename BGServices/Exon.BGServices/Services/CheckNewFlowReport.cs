@@ -55,38 +55,40 @@ namespace Exon.BGServices.Services
 
                             if (model.value.Count > 0)
                             {
-
                                 foreach (var item in model.value)
                                 {
-                                    var flowReport = new OrderLoadingReport
+                                    if (log.OrderId != item.orderId)
                                     {
-                                        OrderId = item.orderId,
-                                        CompanyInternalContractCode = item.companyInternalContractCode,
-                                        OrderGoodDescreption = item.orderGoodDescreption,
-                                        OrderIssueDate = item.orderIssueDate,
-                                        OrderIssueTime = item.orderIssueTime,
-                                        ReceiverCode = item.receiverCode,
-                                        CtName = item.ctName,
-                                        ReceiverName = item.receiverName,
-                                        TruckLicensePlate = item.truckLicensePlate,
-                                        DriverFullName = item.driverFullName,
-                                        OrderGoodCount = item.orderGoodCount,
-                                        OrderWeight = item.orderWeight,
-                                        CreateDate = DateTime.Now
-                                    };
+                                        var flowReport = new OrderLoadingReport
+                                        {
+                                            OrderId = item.orderId,
+                                            CompanyInternalContractCode = item.companyInternalContractCode,
+                                            OrderGoodDescreption = item.orderGoodDescreption,
+                                            OrderIssueDate = item.orderIssueDate,
+                                            OrderIssueTime = item.orderIssueTime,
+                                            ReceiverCode = item.receiverCode,
+                                            CtName = item.ctName,
+                                            ReceiverName = item.receiverName,
+                                            TruckLicensePlate = item.truckLicensePlate,
+                                            DriverFullName = item.driverFullName,
+                                            OrderGoodCount = item.orderGoodCount,
+                                            OrderWeight = item.orderWeight,
+                                            CreateDate = DateTime.Now
+                                        };
 
-                                    await db.OrderLoadingReport.AddAsync(flowReport);
-                                    await db.SaveChangesAsync();
+                                        await db.OrderLoadingReport.AddAsync(flowReport);
+                                        await db.SaveChangesAsync();
+
+                                        var currentLog = new Log();
+                                        currentLog.LogStatus = 0;
+                                        currentLog.CreateDate = DateTime.Now;
+                                        currentLog.LogType = 1;
+                                        currentLog.Message = "inserted";
+
+                                        await db.Logs.AddAsync(currentLog);
+                                        await db.SaveChangesAsync();
+                                    }
                                 }
-
-                                var currentLog = new Log();
-                                currentLog.LogStatus = 0;
-                                currentLog.CreateDate = DateTime.Now;
-                                currentLog.LogType = 1;
-                                currentLog.Message = "inserted";
-
-                                await db.Logs.AddAsync(currentLog);
-                                await db.SaveChangesAsync();
                             }
                         }
                         else
@@ -121,10 +123,13 @@ namespace Exon.BGServices.Services
 
                             model = JsonConvert.DeserializeObject<ResponseFlowReportDTO>(strResponse);
 
+                            string orderId = string.Empty;
                             if (model.value.Count > 0)
                             {
                                 foreach (var item in model.value)
                                 {
+                                    orderId = item.orderId;
+
                                     var flowReport = new OrderLoadingReport
                                     {
                                         OrderId = item.orderId,
@@ -143,17 +148,17 @@ namespace Exon.BGServices.Services
                                     };
                                     await db.OrderLoadingReport.AddAsync(flowReport);
                                     await db.SaveChangesAsync();
-                                }
 
-                                var currentLog = new Log();
-                                currentLog.LogStatus = 0;
-                                currentLog.CreateDate = DateTime.Now;
-                                currentLog.LogType = 1;
-                                currentLog.Message = "inserted";
+                                    var currentLog = new Log();
+                                    currentLog.LogStatus = 0;
+                                    currentLog.CreateDate = DateTime.Now;
+                                    currentLog.LogType = 1;
+                                    currentLog.OrderId = orderId;
+                                    currentLog.Message = "inserted";
 
-                                await db.Logs.AddAsync(currentLog);
-                                await db.SaveChangesAsync();
-
+                                    await db.Logs.AddAsync(currentLog);
+                                    await db.SaveChangesAsync();
+                                }                              
                             }
                         }
                         else

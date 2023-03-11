@@ -7,5 +7,6 @@ namespace Exon.Domain.Models
         public LogType LogType { get; set; }
         public LogStatus LogStatus { get; set; }
         public string? Message { get; set; }
+        public string orderId { get; set; }
     }
 }
