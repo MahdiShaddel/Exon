@@ -3,6 +3,7 @@ using Exon.BGServices.DTO;
 using Exon.BGServices.DTO.FlowReport;
 using Exon.BGServices.Extenstions;
 using Exon.BGServices.Models;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Quartz;
 using System.Net;
@@ -57,7 +58,9 @@ namespace Exon.BGServices.Services
                             {
                                 foreach (var item in model.value)
                                 {
-                                    if (log.OrderId != item.orderId)
+                                    var count = await db.OrderLoadingReport.Where(a => a.OrderId == item.orderId).CountAsync();
+
+                                    if (count == 0)
                                     {
                                         var flowReport = new OrderLoadingReport
                                         {
@@ -124,6 +127,7 @@ namespace Exon.BGServices.Services
                             model = JsonConvert.DeserializeObject<ResponseFlowReportDTO>(strResponse);
 
                             string orderId = string.Empty;
+
                             if (model.value.Count > 0)
                             {
                                 foreach (var item in model.value)
@@ -146,6 +150,7 @@ namespace Exon.BGServices.Services
                                         OrderWeight = item.orderWeight,
                                         CreateDate = DateTime.Now
                                     };
+
                                     await db.OrderLoadingReport.AddAsync(flowReport);
                                     await db.SaveChangesAsync();
 
