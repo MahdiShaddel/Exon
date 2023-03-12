@@ -16,5 +16,5 @@ public partial class Log
     public DateTime CreateDate { get; set; }
 
     public DateTime ModifedDate { get; set; }
-    public string? OrderId { get; set; }
+    public string OrderId { get; set; }
 }
