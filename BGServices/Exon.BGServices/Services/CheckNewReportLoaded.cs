@@ -56,7 +56,7 @@ namespace Exon.BGServices.Services
 
                             if (listmodel.value.Count > 0)
                             {
-                                var orders = db.OrderLoadingReport.Where(o => o.BillOfLadingId == null && o.IsArrived.Value.Equals(true)).ToList();
+                                var orders = db.OrderLoadingReport.Where(o => o.BillOfLadingId == null).ToList();
 
                                 var orderIds = orders.Select(o => o.OrderId).ToList();
 
