@@ -4,6 +4,7 @@ using Exon.Inferastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Exon.Inferastructure.Migrations
 {
     [DbContext(typeof(ExonContext))]
-    partial class ExonContextModelSnapshot : ModelSnapshot
+    [Migration("20230317053535_change-model-data-types")]
+    partial class changemodeldatatypes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -88,8 +91,8 @@ namespace Exon.Inferastructure.Migrations
                     b.Property<string>("ctName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<TimeSpan?>("driverArrivedTime")
-                        .HasColumnType("time");
+                    b.Property<DateTime?>("driverArrivedTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("driverFullName")
                         .HasColumnType("nvarchar(max)");

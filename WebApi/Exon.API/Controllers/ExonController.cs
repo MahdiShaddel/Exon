@@ -40,7 +40,7 @@ namespace Exon.API.Controllers
             if (report != null)
             {
                 report.isArrived = true;
-                report.driverArrivedTime = request.driverArrivedTime.TimeOfDay.ToString();
+                report.driverArrivedTime = request.driverArrivedTime.TimeOfDay;
                 await Repository.UpdateOrderLoadingReport(report);
 
                 response.Sucess = true;

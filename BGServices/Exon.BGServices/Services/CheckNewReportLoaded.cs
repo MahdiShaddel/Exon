@@ -6,6 +6,7 @@ using Exon.BGServices.Models;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Quartz;
+using System.Globalization;
 using System.Net;
 using System.Text;
 
@@ -67,7 +68,7 @@ namespace Exon.BGServices.Services
                                     if (findedEntity is not null)
                                     {
                                         item.BillOfLadingId = findedEntity.billOfLadingID;
-                                        item.BillOfLadingDate = findedEntity.billOfLadingDate;
+                                        item.BillOfLadingDate = DateConverter.PersianDateStringToDateTime(findedEntity.billOfLadingDate);
                                         item.BillOfLadingTime = findedEntity.billOfLadingTime;
                                         item.BillOfLadingGoodCount = findedEntity.billOfLadingGoodCount;
                                         item.BillOfLadingWeight = findedEntity.billOfLadingWeight;
@@ -135,7 +136,7 @@ namespace Exon.BGServices.Services
                                     var reportLoaded = new OrderLoadingReport
                                     {
                                         BillOfLadingId = item.billOfLadingID,
-                                        BillOfLadingDate = item.billOfLadingDate,
+                                        BillOfLadingDate = DateConverter.PersianDateStringToDateTime(item.billOfLadingDate),
                                         BillOfLadingTime = item.billOfLadingTime,
                                         BillOfLadingGoodCount = item.billOfLadingGoodCount,
                                         BillOfLadingWeight = item.billOfLadingWeight,
@@ -153,7 +154,7 @@ namespace Exon.BGServices.Services
                                         TruckLicensePlate = item.truckLicensePlate,
                                         CreateDate = DateTime.Now,
                                         IsArrived = true,
-                                        DriverArrivedTime = "00:00:00:000"
+                                        DriverArrivedTime = DateTime.Now.TimeOfDay
                                     };
 
                                     await db.OrderLoadingReport.AddAsync(reportLoaded);

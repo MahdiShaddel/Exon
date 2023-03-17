@@ -3,16 +3,16 @@
     public class ValueFlowReportDTO
     {
         public string orderId { get; set; }
-        public string companyInternalContractCode { get; set; }
+        public int companyInternalContractCode { get; set; }
         public string orderGoodDescreption { get; set; }
-        public string orderIssueDate { get; set; }
-        public string orderIssueTime { get; set; }
-        public string receiverCode { get; set; }
+        public DateTime orderIssueDate { get; set; }
+        public TimeSpan orderIssueTime { get; set; }
+        public int receiverCode { get; set; }
         public string ctName { get; set; }
         public string receiverName { get; set; }
         public string truckLicensePlate { get; set; }
         public string driverFullName { get; set; }
-        public string orderGoodCount { get; set; }
-        public string orderWeight { get; set; }
+        public int orderGoodCount { get; set; }
+        public int orderWeight { get; set; }
     }
 }
